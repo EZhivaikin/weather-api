@@ -1,0 +1,8 @@
+project:
+  name: "weather-api"
+
+clients:
+  openweather:
+    api_key: ${env:OPENWEATHER_API_KEY}
+  geocoder:
+    api:key: ${env:GEOCODER_API_KEY}
