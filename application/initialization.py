@@ -12,5 +12,5 @@ def init() -> FastAPI:
     app = FastAPI(
         title=settings.app_name
     )
-    app.include_router(api_router)
+    app.include_router(api_router, prefix=f"/api/v{settings.api_version}")
     return app

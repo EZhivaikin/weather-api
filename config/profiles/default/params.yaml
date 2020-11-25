@@ -1,5 +1,6 @@
 project:
   name: "weather-api"
+  api_version: 1
 
 clients:
   openweather:
