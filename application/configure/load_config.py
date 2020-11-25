@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Optional
 
 from pydantic import BaseSettings
@@ -12,6 +13,9 @@ class Settings(BaseSettings):
     open_weather_api_key: Optional[str]
     geo_coder_api_key: Optional[str]
 
+@dataclass
+class ApiClient:
+    pass
 
 def _load_application_configuration(profile: str):
     config_folder = APPLICATION_CONFIGS_ROOT / "profiles" / profile
