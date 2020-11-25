@@ -8,9 +8,14 @@ def set_cors_middleware():
     pass
 
 
+def configure_clients():
+    pass
+
+
 def init() -> FastAPI:
     app = FastAPI(
         title=settings.app_name
     )
     app.include_router(api_router, prefix=f"/api/v{settings.api_version}")
+    configure_clients()
     return app

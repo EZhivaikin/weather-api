@@ -5,5 +5,12 @@ project:
 clients:
   openweather:
     api_key: ${env:OPENWEATHER_API_KEY}
+    host: "api.openweathermap.org"
+    secret_key: ""
+    prefix: "data/2.5"
+
   geocoder:
-    api:key: ${env:GEOCODER_API_KEY}
+    api_key: ${env:GEOCODER_API_KEY}
+    secret_key: ${env:GEOCODER_SECRET_KEY}
+    host: "cleaner.dadata.ru"
+    prefix: "/api/v1"
