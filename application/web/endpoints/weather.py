@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 
-from application.adapter.geocoder.client import geocoder_client
+from application.service.weather import weather_service
 
 router = APIRouter()
 
 
 @router.get("/forecast/{city_name}")
 async def get_forecast(city_name: str):
-    r = await geocoder_client.get_coords_by_city_name(city_name)
-    return r
+    weather_service.get_weather_forecast(city_name)
+    return None
 
 
 @router.get("/history")
