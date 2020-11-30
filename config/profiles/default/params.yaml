@@ -5,9 +5,9 @@ project:
 clients:
   weather:
     api_key: ${env:WEATHER_API_KEY}
-    host: "web.openweathermap.org"
+    host: "api.openweathermap.org"
     secret_key: ""
-    prefix: "data/2.5"
+    prefix: "/data/2.5"
 
   geocoder:
     api_key: ${env:GEOCODER_API_KEY}
