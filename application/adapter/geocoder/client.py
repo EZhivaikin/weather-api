@@ -1,5 +1,9 @@
+from typing import Optional
+
 from application.adapter.async_request import async_request
 from application.configure.load_config import settings
+from application.domain.geocode import Geocode
+from application.errors import GeocoderClientError, GeocoderClientError
 from config.settings import ApiClient
 
 
@@ -15,14 +19,22 @@ class GeocoderClient:
         headers = self._prepare_headers()
         params = self._prepare_params(city_name)
         url = self._prepare_url()
-        result = await async_request(
-            url=url,
-            method="POST",
-            headers=headers,
-            params=params,
-            timeout=self._timeout
-        )
-        return result
+        try:
+            result = await async_request(
+                url=url,
+                method="GET",
+                headers=headers,
+                params=params,
+                timeout=self._timeout
+            )
+        except Exception:
+            raise GeocoderClientError()
+
+        geocode = self._convert_to_geocode(result)
+        if not geocode:
+            raise GeocoderClientError()
+
+        return geocode
 
     def _prepare_headers(self) -> dict:
         return {
@@ -39,6 +51,25 @@ class GeocoderClient:
             format="json",
             apikey=self._api_key,
             geocode=city_name
+        )
+
+    def _convert_to_geocode(self, response: dict) -> Optional[Geocode]:
+        geo_objects = (
+            response
+                .get('response')
+                .get('GeoObjectCollection')
+                .get('featureMember')
+        )
+        if geo_objects is None or len(geo_objects) == 0:
+            return None
+
+        geo_object = geo_objects[0].get('GeoObject')
+        position = geo_object.get('Point').get('pos')
+        lon, lat = position.split()
+
+        return Geocode(
+            lat=lat,
+            lon=lon
         )
 
 
