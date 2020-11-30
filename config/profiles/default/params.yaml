@@ -3,8 +3,8 @@ project:
   api_version: 1
 
 clients:
-  openweather:
-    api_key: ${env:OPENWEATHER_API_KEY}
+  weather:
+    api_key: ${env:WEATHER_API_KEY}
     host: "web.openweathermap.org"
     secret_key: ""
     prefix: "data/2.5"

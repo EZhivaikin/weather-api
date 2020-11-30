@@ -3,7 +3,7 @@ from typing import Optional
 from application.configure.load_config import settings
 
 
-class OpenWeatherClient:
+class WeatherClient:
     def __init__(
             self, host: str, api_key: Optional[str], secret_key: Optional[str], prefix: str, timeout=10
     ):
@@ -20,7 +20,7 @@ class OpenWeatherClient:
         pass
 
 
-openweather_client = OpenWeatherClient(
+openweather_client = WeatherClient(
     host=settings.openweather_api.host,
     api_key=settings.openweather_api.api_key,
     secret_key=settings.openweather_api.secret_key,

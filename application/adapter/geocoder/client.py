@@ -1,10 +1,8 @@
 import json
 
 from application.adapter.async_request import async_request
-from application.configure.load_config import settings
 
-
-class GeoCoderClient:
+class GeocoderClient:
     def __init__(self, host: str, api_key: str, secret_key, prefix: str, timeout=10):
         self.host = host
         self.timeout = timeout
@@ -43,9 +41,4 @@ class GeoCoderClient:
         )
 
 
-geocoder_client = GeoCoderClient(
-    host=settings.geocoder_api.host,
-    api_key=settings.geocoder_api.api_key,
-    secret_key=settings.geocoder_api.secret_key,
-    prefix=settings.geocoder_api.prefix
-)
+
