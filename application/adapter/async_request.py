@@ -9,7 +9,8 @@ async def async_request(url, method, headers=None, data=None, params=None, timeo
                 headers=headers,
                 params=params,
                 data=data,
-                timeout=timeout
+                timeout=timeout,
+                raise_for_status=True
         ) as response:
             result = await response.json()
     return result
