@@ -1,16 +1,16 @@
 project:
-  name: "weather-api"
+  name: "weather-web"
   api_version: 1
 
 clients:
   openweather:
     api_key: ${env:OPENWEATHER_API_KEY}
-    host: "api.openweathermap.org"
+    host: "web.openweathermap.org"
     secret_key: ""
     prefix: "data/2.5"
 
   geocoder:
     api_key: ${env:GEOCODER_API_KEY}
-    secret_key: ${env:GEOCODER_SECRET_KEY}
-    host: "cleaner.dadata.ru"
-    prefix: "/api/v1"
+    secret_key: ""
+    host: "geocode-maps.yandex.ru"
+    prefix: "/1.x"

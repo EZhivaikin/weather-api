@@ -14,27 +14,33 @@ class GeoCoderClient:
 
     async def get_coords_by_city_name(self, city_name: str):
         headers = self._prepare_headers()
+        params = self._prepare_params(city_name)
         url = self._prepare_url()
-        url += "/clean/address"
-        body = json.dumps([city_name])
         result = await async_request(
             url=url,
             method="POST",
-            data=body,
             headers=headers,
+            params=params,
             timeout=self.timeout
         )
         return result
 
-    def _prepare_headers(self):
+    def _prepare_headers(self) -> dict:
         return {
             "Content-Type": "application/json",
             "Authorization": f"Token {self.api_key}",
             "X-Secret": self.secret_key
         }
 
-    def _prepare_url(self):
+    def _prepare_url(self) -> str:
         return f"https://{self.host}{self.prefix}"
+
+    def _prepare_params(self, city_name: str) -> dict:
+        return dict(
+            format="json",
+            apikey=self.api_key,
+            geocode=city_name
+        )
 
 
 geocoder_client = GeoCoderClient(
