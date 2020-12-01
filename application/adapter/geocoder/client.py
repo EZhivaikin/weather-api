@@ -1,9 +1,10 @@
 from typing import Optional
+from urllib.parse import urljoin
 
 from application.adapter.async_request import async_request
 from application.config.application import settings
 from application.domain.geocode import Geocode
-from application.errors import GeocoderClientError
+from application.errors import GeocoderClientError, CityNotFound
 from config.application_config import ApiClient
 
 
@@ -20,19 +21,13 @@ class GeocoderClient:
         params = self._prepare_params(city_name)
         url = self._prepare_url()
         try:
-            result = await async_request(
-                url=url,
-                method="GET",
-                headers=headers,
-                params=params,
-                timeout=self._timeout
-            )
-        except Exception:
+            result = await self._make_request(url, params, headers)
+        except Exception as e:
             raise GeocoderClientError()
 
         geocode = self._convert_to_geocode(result)
         if not geocode:
-            raise GeocoderClientError()
+            raise CityNotFound()
 
         return geocode
 
@@ -43,8 +38,17 @@ class GeocoderClient:
             "X-Secret": self._secret_key
         }
 
+    async def _make_request(self, url, params, headers):
+        return await async_request(
+            url=url,
+            method="GET",
+            params=params,
+            timeout=self._timeout,
+            headers=headers
+        )
+
     def _prepare_url(self) -> str:
-        return f"https://{self._host}{self._prefix}"
+        return urljoin(self._host, self._prefix)
 
     def _prepare_params(self, city_name: str) -> dict:
         return dict(
