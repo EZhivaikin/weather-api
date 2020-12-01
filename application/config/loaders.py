@@ -1,10 +1,8 @@
 import os
-from functools import lru_cache
 
-from config.configs import APPLICATION_CONFIGS_ROOT
 from omegaconf import OmegaConf, DictConfig
 
-from config.settings import Settings, ApiClient
+from config.application_config import APPLICATION_CONFIGS_ROOT, ApiClient, Settings
 
 
 def load_application_configuration(profile: str) -> DictConfig:
@@ -44,4 +42,3 @@ def load_settings() -> Settings:
     )
 
 
-settings = load_settings()

@@ -3,11 +3,11 @@ from decimal import Decimal
 from typing import Optional, List
 
 from application.adapter.async_request import async_request
-from application.configure.load_config import settings
+from application.config.application import settings
 from application.domain.geocode import Geocode
+from application.domain.weather import WeatherCastInformation
 from application.errors import WeatherClientError
-from application.schemas.weather_cast import WeatherCastList, WeatherCast
-from config.settings import ApiClient
+from config.application_config import ApiClient
 
 
 class WeatherClient:
@@ -53,20 +53,20 @@ class WeatherClient:
         )
 
     def _convert_to_weathercast(self, response: dict):
-        casts = response.get('daily')
-        weather_casts: List[WeatherCast] = []
-        for cast in casts:
-            timestamp = cast.get('dt')
-            date = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d')
-            min_temp = Decimal(cast.get('temp').get('min'))
-            max_temp = Decimal(cast.get('temp').get('max'))
+        daily_casts = response.get('daily')
+        weather_casts: List[WeatherCastInformation] = []
+        for daily_cast in daily_casts:
+            timestamp = daily_cast.get('dt')
+            date = datetime.fromtimestamp(timestamp)
+            min_temp = Decimal(daily_cast.get('temp').get('min'))
+            max_temp = Decimal(daily_cast.get('temp').get('max'))
             avg_temp = ((min_temp + max_temp) / 2).quantize(Decimal(".01"))
-            weather_cast = WeatherCast(
+            weather_cast = WeatherCastInformation(
                 date=date,
-                temperature=f"{avg_temp}°С"
+                temperature=avg_temp
             )
             weather_casts.append(weather_cast)
-        return WeatherCastList(weather=weather_casts)
+        return weather_casts
 
 
 def load_weather_client(weather_settings: ApiClient):

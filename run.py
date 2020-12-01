@@ -1,7 +1,7 @@
 from application import app
 import uvicorn
 
-from application.configure.load_config import settings
+from application.config.application import settings
 
 app = app.init(settings)
 

@@ -3,14 +3,14 @@ from typing import List
 from pydantic import BaseModel
 
 
-class WeatherCastBase(BaseModel):
+class WeatherCastBaseSchema(BaseModel):
     date: str
     temperature: str
 
 
-class WeatherCast(WeatherCastBase):
+class WeatherCastSchema(WeatherCastBaseSchema):
     pass
 
 
-class WeatherCastList(BaseModel):
-    weather: List[WeatherCast]
+class WeatherCastListSchema(BaseModel):
+    weather: List[WeatherCastSchema]

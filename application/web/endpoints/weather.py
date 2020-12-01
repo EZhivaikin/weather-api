@@ -2,13 +2,13 @@ from fastapi import APIRouter, HTTPException
 from starlette import status
 
 from application.errors import GeocoderClientError, WeatherClientError
-from application.schemas.weather_cast import WeatherCastList
+from application.schemas.weather_cast import WeatherCastListSchema
 from application.service.weather_cast import weather_service
 
 router = APIRouter()
 
 
-@router.get("/cast/forecast/city/{city_name}", response_model=WeatherCastList)
+@router.get("/cast/forecast/city/{city_name}", response_model=WeatherCastListSchema)
 async def get_forecast(city_name: str):
     try:
         geocode = await weather_service.get_weather_forecast(city_name)

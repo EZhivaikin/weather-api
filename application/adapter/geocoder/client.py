@@ -1,10 +1,10 @@
 from typing import Optional
 
 from application.adapter.async_request import async_request
-from application.configure.load_config import settings
+from application.config.application import settings
 from application.domain.geocode import Geocode
-from application.errors import GeocoderClientError, GeocoderClientError
-from config.settings import ApiClient
+from application.errors import GeocoderClientError
+from config.application_config import ApiClient
 
 
 class GeocoderClient:
