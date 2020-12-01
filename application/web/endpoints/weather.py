@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from starlette import status
 
-from application.errors import GeocoderClientError, WeatherClientError
+from application.errors import GeocoderClientError, WeatherClientError, CityNotFound
 from application.schemas.weather_cast import WeatherCastListSchema
 from application.service.weather_cast_service import weather_service
 
@@ -12,12 +12,16 @@ router = APIRouter()
 async def get_forecast(city_name: str):
     try:
         weather_forecast = await weather_service.get_weather_forecast(city_name)
+    except CityNotFound:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="City not found"
+        )
     except GeocoderClientError:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Geocoder client unavailable"
         )
-
     except WeatherClientError:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -30,12 +34,16 @@ async def get_forecast(city_name: str):
 async def get_weather_history(city_name: str):
     try:
         weather_history = await weather_service.get_weather_history(city_name)
+    except CityNotFound:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="City not found"
+        )
     except GeocoderClientError:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Geocoder client unavailable"
         )
-
     except WeatherClientError:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
