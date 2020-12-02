@@ -11,5 +11,5 @@ RUN pip3 install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-dev
 EXPOSE 3330
-CMD uvicorn application.initializtion:app --host 0.0.0.0 --port ${PORT:-3330}
+CMD uvicorn application.initialization:app --host 0.0.0.0 --port ${PORT:-3330}
 
