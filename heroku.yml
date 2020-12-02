@@ -4,4 +4,4 @@ build:
   config:
     PYTHONPATH: /app
 run:
-  web: uvicorn initialization:app --host 0.0.0.0 --port ${PORT:-3330}
+  web: uvicorn application.initialization:app --host 0.0.0.0 --port ${PORT:-3330}
