@@ -110,7 +110,7 @@ class WeatherClient:
     def _convert_from_previous_to_weathercast(self, response: dict):
         current_day = response.get('current')
         date = datetime.fromtimestamp(current_day.get('dt'))
-        temp = current_day.get('temp')
+        temp = Decimal(current_day.get('temp')).quantize(Decimal(".01"))
         weather_cast = WeatherCastInformation(
             date=date,
             temperature=temp

@@ -22,7 +22,7 @@ class GeocoderClient:
         url = self._prepare_url()
         try:
             result = await self._make_request(url, params, headers)
-        except Exception as e:
+        except Exception:
             raise GeocoderClientError()
 
         geocode = self._convert_to_geocode(result)
